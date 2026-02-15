@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Admin | SiPerdi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div class="ambient"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logos">
+        <img class="logo school-logo" src="img/SMK.PNG" alt="SMK Negeri 1 Cikarang Selatan" data-logo-view="img/SMK.PNG" />
+        <img class="logo readify-logo" src="img/logo%20siperdi.jpg" alt="Readify Labs" data-logo-view="img/logo%20siperdi.jpg" />
+      </div>
+      <div>
+        <a class="brand-title link-title" href="#admin-dashboard">SiPerdi - SMK Negeri 1 Cikarang Selatan</a>
+        <p class="brand-subtitle">Dashboard Admin</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <nav class="topnav" data-student-hidden>
+        <a class="nav-pill" href="#admin-dashboard">Dashboard</a>
+        <a class="nav-pill" href="#data-siswa">Data Siswa</a>
+        <a class="nav-pill" href="#transaksi">Peminjaman</a>
+        <a class="nav-pill" href="#katalog">Katalog</a>
+        <a class="nav-pill" href="#denda">Denda</a>
+        <a class="nav-pill" href="#profile-admin">Profil</a>
+      </nav>
+      <div class="session" data-session data-student-hidden>
+        <span class="session-name" data-session-name>Halo, Admin</span>
+        <button class="btn ghost" data-logout>Logout</button>
+      </div>
+      <button class="btn solid" data-open-auth="login-admin" data-hide-when-auth>Login Admin</button>
+      <div class="profile-shortcut" data-auth-only data-student-hidden>
+        <a class="profile-chip" href="#profile-admin">Profil Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" data-auth-only data-admin-hidden>
+      <div class="card">
+        <h3>Halaman Khusus Admin</h3>
+        <p class="sub">Anda login sebagai siswa. Dashboard ini hanya untuk petugas perpustakaan.</p>
+        <a class="btn outline small" href="index.html">Kembali ke halaman siswa</a>
+      </div>
+    </section>
+
+    <section id="admin-dashboard" class="section admin-data" data-requires-auth data-student-hidden>
+      <div class="section-title">
+        <h2>Dashboard Admin</h2>
+        <p>Ringkasan data sesuai struktur tabel users, admin, buku, dan peminjaman.</p>
+      </div>
+      <div class="lockable">
+        <div class="dashboard-grid">
+          <div class="card">
+            <h3>Data Siswa</h3>
+            <p class="sub">Total siswa yang sudah terdaftar.</p>
+            <ul class="list">
+              <li><span>Jumlah siswa</span><strong data-admin-students>0</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Total Peminjaman</h3>
+            <p class="sub">Transaksi peminjaman yang tercatat.</p>
+            <ul class="list">
+              <li><span>Total transaksi</span><strong data-admin-total-loans>0</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Status Peminjaman</h3>
+            <p class="sub">Pantau peminjaman aktif dan jatuh tempo.</p>
+            <ul class="list">
+              <li><span>Peminjaman aktif</span><strong data-admin-active>0</strong></li>
+              <li><span>Jatuh tempo (14 hari)</span><strong data-admin-due>0</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Keterlambatan</h3>
+            <p class="sub">Jumlah peminjaman yang terlambat.</p>
+            <ul class="list">
+              <li><span>Terlambat</span><strong data-admin-overdue>0</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Denda</h3>
+            <p class="sub">Akumulasi denda keterlambatan.</p>
+            <ul class="list">
+              <li><span>Total denda</span><strong data-admin-fine>Rp 0</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Kontrol Cepat</h3>
+            <p class="sub">Unduh laporan.</p>
+            <button class="btn outline small" data-admin-download>Unduh Laporan</button>
+          </div>
+        </div>
+
+        <div class="admin-returns">
+          <div class="card">
+            <h3>Permintaan Pengembalian</h3>
+            <p class="sub">Daftar buku yang diajukan untuk dikembalikan.</p>
+            <div class="admin-list" data-admin-returns></div>
+            <div class="empty-state" data-admin-returns-empty>Belum ada permintaan pengembalian.</div>
+          </div>
+        </div>
+      </div>
+      <div class="guard">
+        <p>Silakan login sebagai admin untuk membuka dashboard.</p>
+        <button class="btn solid" data-open-auth="login-admin">Login Admin</button>
+      </div>
+    </section>
+
+    <section id="data-siswa" class="section" data-requires-auth data-student-hidden>
+      <div class="section-title">
+        <h2>Data Siswa</h2>
+        <p>Rekap akun siswa yang terdaftar pada sistem SiPerdi.</p>
+      </div>
+      <div class="lockable">
+        <div class="table admin-students-table">
+          <div class="table-head">
+            <span>Nama</span>
+            <span>NIS</span>
+            <span>Kelas</span>
+            <span>Total</span>
+            <span>Status</span>
+          </div>
+          <div class="table-body" data-admin-students-list></div>
+        </div>
+        <div class="empty-state" data-admin-students-empty>Belum ada data siswa.</div>
+      </div>
+    </section>
+
+    <section id="transaksi" class="section admin-recent" data-requires-auth data-student-hidden>
+      <div class="section-title">
+        <h2>Transaksi Peminjaman</h2>
+        <p>Riwayat peminjaman terbaru yang tercatat di sistem.</p>
+      </div>
+      <div class="lockable">
+        <div class="table admin-loans-table">
+          <div class="table-head">
+            <span>Nama</span>
+            <span>Judul Buku</span>
+            <span>Pinjam</span>
+            <span>Jatuh Tempo</span>
+            <span>Status</span>
+          </div>
+          <div class="table-body" data-admin-loans-list></div>
+        </div>
+        <div class="empty-state" data-admin-loans-empty>Belum ada transaksi peminjaman.</div>
+      </div>
+    </section>
+
+    <section id="denda" class="section" data-requires-auth data-student-hidden>
+      <div class="section-title">
+        <h2>Denda dan Jatuh Tempo</h2>
+        <p>Pantau siswa yang mendekati jatuh tempo dan status pembayaran denda.</p>
+      </div>
+      <div class="lockable">
+        <div class="table admin-fines-table">
+          <div class="table-head">
+            <span>Nama</span>
+            <span>NIS</span>
+            <span>Jatuh Tempo</span>
+            <span>Terlambat</span>
+            <span>Denda</span>
+            <span>Status</span>
+          </div>
+          <div class="table-body" data-admin-fines-list></div>
+        </div>
+        <div class="empty-state" data-admin-fines-empty>Belum ada data denda.</div>
+      </div>
+    </section>
+
+    <section id="katalog" class="section catalog" data-requires-auth data-student-hidden>
+      <div class="section-title">
+        <h2>Katalog Buku</h2>
+        <p>Kelola data buku sesuai tabel buku pada ERD SiPerdi.</p>
+      </div>
+      <div class="lockable">
+        <div class="catalog-search">
+          <label for="catalog-admin-search">Cari Buku</label>
+          <input class="input" id="catalog-admin-search" type="search" placeholder="Ketik judul, penulis, atau kategori" data-catalog-search />
+          <p class="sub" data-catalog-count>Menampilkan semua buku.</p>
+          <div class="empty-state" data-catalog-empty>Tidak ada buku yang sesuai.</div>
+        </div>
+        <div class="table admin-catalog-table">
+          <div class="table-head">
+            <span>ID</span>
+            <span>Judul</span>
+            <span>Penulis</span>
+            <span>Tahun</span>
+            <span>Status</span>
+          </div>
+          <div class="table-body">
+            <div class="table-row">
+              <span>BK-001</span>
+              <span>Algoritma dan Pemrograman</span>
+              <span>H. Wibowo</span>
+              <span>2021</span>
+              <span class="badge success">Tersedia</span>
+            </div>
+            <div class="table-row">
+              <span>BK-002</span>
+              <span>Basis Data untuk RPL</span>
+              <span>D. Prasetyo</span>
+              <span>2020</span>
+              <span class="badge warn">Dipinjam</span>
+            </div>
+            <div class="table-row">
+              <span>BK-003</span>
+              <span>Jaringan Komputer</span>
+              <span>A. Putra</span>
+              <span>2019</span>
+              <span class="badge success">Tersedia</span>
+            </div>
+            <div class="table-row">
+              <span>BK-004</span>
+              <span>UI/UX untuk Pemula</span>
+              <span>S. Rahman</span>
+              <span>2022</span>
+              <span class="badge success">Tersedia</span>
+            </div>
+            <div class="table-row">
+              <span>BK-005</span>
+              <span>Administrasi Server</span>
+              <span>M. Santoso</span>
+              <span>2023</span>
+              <span class="badge warn">Dipinjam</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile-admin" class="section profile profile-admin" data-requires-auth data-student-hidden data-auth-only>
+      <div class="profile-shell lockable">
+        <aside class="profile-rail">
+          <div class="rail-icon active">AD</div>
+          <div class="rail-icon">DS</div>
+          <div class="rail-icon">BK</div>
+          <div class="rail-icon">LG</div>
+        </aside>
+        <div class="profile-main">
+          <div class="profile-page-header">
+            <div class="profile-page-title">
+              <h1>Profil Admin</h1>
+              <p class="sub">Identitas admin dan ringkasan kontrol perpustakaan.</p>
+            </div>
+            <div class="profile-page-actions">
+              <a class="btn solid small" href="#admin-dashboard">Dashboard</a>
+              <a class="btn outline small" href="#katalog">Katalog</a>
+            </div>
+          </div>
+
+          <div class="card profile-card profile-social admin-profile-card">
+            <div class="profile-cover"></div>
+            <div class="profile-header">
+              <div class="profile-avatar">
+                <img src="img/avatar.svg" alt="Foto Admin" data-profile-photo />
+                <span class="badge danger">Admin</span>
+              </div>
+              <div class="profile-meta">
+                <h3 data-profile="name">-</h3>
+                <p class="sub">Administrator Perpustakaan</p>
+                <div class="profile-badges">
+                  <span class="badge neutral">Akses Penuh</span>
+                  <span class="badge">SiPerdi Control</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-stats">
+              <div>
+                <span>Total Peminjaman</span>
+                <strong data-profile-stat="total">0</strong>
+              </div>
+              <div>
+                <span>Jatuh Tempo</span>
+                <strong data-profile-stat="due">0</strong>
+              </div>
+              <div>
+                <span>Total Denda</span>
+                <strong data-profile-stat="fine">Rp 0</strong>
+              </div>
+            </div>
+            <div class="form-message" data-message="profile"></div>
+          </div>
+
+          <div class="profile-meta-grid">
+            <div class="profile-meta-item">
+              <span>Email</span>
+              <strong data-profile="email">-</strong>
+            </div>
+            <div class="profile-meta-item">
+              <span>Role</span>
+              <strong data-profile="role">Admin</strong>
+            </div>
+            <div class="profile-meta-item">
+              <span>Hak Akses</span>
+              <strong>Kelola seluruh data siswa &amp; peminjaman</strong>
+            </div>
+            <div class="profile-meta-item">
+              <span>Status</span>
+              <strong>Aktif</strong>
+            </div>
+          </div>
+
+          <div class="profile-about">
+            <h4>Tentang Admin</h4>
+            <p class="sub">Admin bertanggung jawab memvalidasi peminjaman, memantau denda, dan menjaga stok buku.</p>
+          </div>
+
+          <div class="profile-contact">
+            <div class="profile-contact-item">
+              <span>Kontak Resmi</span>
+              <strong>admin@smkn1ckr.sch.id</strong>
+            </div>
+            <div class="profile-contact-item">
+              <span>Alamat</span>
+              <strong>SMK N 1 Cikarang Selatan</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="auth-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-auth></div>
+    <div class="modal-card">
+      <button class="close" data-close-auth>&times;</button>
+      <div class="auth-tabs">
+        <button class="tab active" data-auth-tab="login">Login Admin</button>
+        <button class="tab" data-auth-tab="signup">Tambah Admin</button>
+      </div>
+      <div class="auth-panel" data-auth-panel="login">
+        <h3>Masuk Admin</h3>
+        <p class="sub">Gunakan email admin dan kata sandi.</p>
+        <form class="form" data-form="login">
+          <input type="hidden" name="role" value="admin" />
+          <label data-login-label>Email</label>
+          <input type="email" name="email" placeholder="admin@sekolah.id" required data-login-input />
+          <label>Kata Sandi</label>
+          <input type="password" name="password" placeholder="********" required />
+          <div class="form-message" data-message="login"></div>
+          <button class="btn solid full">Masuk</button>
+        </form>
+        <p class="switch">
+          Belum punya akun admin?
+          <button type="button" class="link" data-auth-switch="signup">Tambah Admin</button>
+        </p>
+      </div>
+      <div class="auth-panel hidden" data-auth-panel="signup">
+        <h3>Tambah Admin</h3>
+        <p class="sub">Masukkan kode admin untuk membuat akun baru.</p>
+        <form class="form" data-form="signup">
+          <input type="hidden" name="role" value="admin" />
+          <label>Nama Lengkap</label>
+          <input type="text" name="name" placeholder="Nama Admin" required />
+          <div data-role-fields="admin">
+            <label>Kode Admin</label>
+            <input type="text" name="admin_code" placeholder="Masukkan kode admin" required />
+            <p class="sub">Kode demo: 024</p>
+          </div>
+          <label>Email</label>
+          <input type="email" name="email" placeholder="admin@sekolah.id" required />
+          <label>Kata Sandi</label>
+          <input type="password" name="password" placeholder="Minimal 8 karakter" minlength="8" required />
+          <div class="form-message" data-message="signup"></div>
+          <button class="btn solid full">Daftarkan Admin</button>
+        </form>
+        <p class="switch">
+          Sudah punya akun?
+          <button type="button" class="link" data-auth-switch="login">Login</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-modal" id="logo-modal" aria-hidden="true">
+    <div class="logo-backdrop" data-close-logo></div>
+    <div class="logo-dialog">
+      <img src="" alt="Logo" data-logo-image />
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    if (!window.SIPERDI_APP_READY) {
+      const authModal = document.getElementById("auth-modal");
+      const tabButtons = document.querySelectorAll("[data-auth-tab]");
+      const panels = document.querySelectorAll("[data-auth-panel]");
+
+      const setTab = (mode) => {
+        tabButtons.forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.authTab === mode);
+        });
+        panels.forEach((panel) => {
+          panel.classList.toggle("hidden", panel.dataset.authPanel !== mode);
+        });
+      };
+
+      const openAuth = (mode) => {
+        if (!authModal) return;
+        authModal.classList.add("active");
+        authModal.setAttribute("aria-hidden", "false");
+        if (mode === "signup-admin") {
+          setTab("signup");
+        } else {
+          setTab("login");
+        }
+      };
+
+      const closeAuth = () => {
+        if (!authModal) return;
+        authModal.classList.remove("active");
+        authModal.setAttribute("aria-hidden", "true");
+      };
+
+      document.addEventListener("click", (event) => {
+        const openAuthButton = event.target.closest("[data-open-auth]");
+        if (openAuthButton) {
+          event.preventDefault();
+          openAuth(openAuthButton.dataset.openAuth);
+          return;
+        }
+
+        const closeAuthButton = event.target.closest("[data-close-auth]");
+        if (closeAuthButton) {
+          event.preventDefault();
+          closeAuth();
+          return;
+        }
+
+        const tabButton = event.target.closest("[data-auth-tab]");
+        if (tabButton) {
+          event.preventDefault();
+          setTab(tabButton.dataset.authTab);
+          return;
+        }
+
+        const authSwitchButton = event.target.closest("[data-auth-switch]");
+        if (authSwitchButton) {
+          event.preventDefault();
+          setTab(authSwitchButton.dataset.authSwitch);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

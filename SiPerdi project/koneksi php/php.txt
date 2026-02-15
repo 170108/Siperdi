@@ -1,0 +1,11 @@
+<?php
+
+$conn = mysqli_connect("localhost", "root", "", "siperdi");
+
+if (!$conn) {
+    die("Koneksi gagal");
+}
+
+// echo "Koneksi berhasil";
+
+?>
